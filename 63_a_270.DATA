@@ -7,7 +7,7 @@ TITLE
 
 
 DIMENS
-   1890 1890 50 /
+   7 7 1 /
 
 -- The number of equilibration regions is inferred
 -- from the EQLDIMS keyword.
