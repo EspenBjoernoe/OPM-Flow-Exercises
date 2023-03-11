@@ -135,12 +135,12 @@ SOLUTION
 -- Initial water saturation for each grid cell
 -- We have only water
 SWAT
-  35721*1.0
+  178605*1.0
 /
 
 -- Initial pressure
 PRESSURE
-  35721*200.0
+  178605*200.0
 /
 
 
