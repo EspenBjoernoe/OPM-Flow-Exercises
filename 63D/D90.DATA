@@ -172,7 +172,7 @@ WELSPECS
 --  1    2      3       4       5        6
  'INJW' 'G1'    2      20    1*    'WATER' /
  'PROD' 'G1'    11     11    1*    'WATER' /
- 'PROD' 'G1'    11     12    1*    'WATER' /
+ 'PROD' 'G2'    11     12    1*    'WATER' /
 /
 
 -- The COMPDAT keyword defines how a well is
