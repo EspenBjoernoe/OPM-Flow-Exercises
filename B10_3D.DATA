@@ -1,0 +1,211 @@
+
+RUNSPEC
+-- --------------------------------------------------
+
+TITLE
+ Single producer in center of grid cell - 90X90m cells
+
+
+DIMENS
+   189 189 5 /
+
+-- The number of equilibration regions is inferred
+-- from the EQLDIMS keyword.
+EQLDIMS
+/
+
+-- The number of PVTW tables is inferred from the
+-- TABDIMS keyword;  when no data is included in the
+-- keyword, then the default values are used.
+TABDIMS
+/
+
+-- We don't have oil in our system, we still need
+-- the OIL keyword since  the Flow simulator is
+-- a multiphase simulator.
+OIL
+WATER
+
+METRIC
+
+START
+   1 'JAN' 2015 /
+
+WELLDIMS
+-- Item 1: maximum number of wells in the model
+--         - there are two wells in the problem;
+--           injector and producer
+-- Item 2: maximum number of grid blocks connected
+--  to any one well
+--         - must be one as the wells are located
+--           at specific grid blocks
+-- Item 3: maximum number of groups in the model
+--         - we are dealing with only one 'group'
+-- Item 4: maximum number of wells in any one group
+--         - there must be two wells in a group
+--           as there are two wells in total
+   2 1 1 2 /
+
+-- The UNIFOUT keyword is used to request the
+-- output files to be on a unified format, i.e.
+-- the output from different timesteps are
+-- collected into a single file.
+UNIFOUT
+
+GRID
+-- --------------------------------------------------
+
+-- The INIT keyword is used to request an .INIT file.
+-- The .INIT file is written before the simulation
+-- actually starts, and contains grid properties and
+-- saturation tables as inferred from the input
+-- deck. There are no other keywords which can be
+-- used to configure exactly what is written to
+-- the .INIT file.
+INIT
+
+
+DXV 
+        189*10.0 /
+
+DYV
+        189*10.0 /
+
+DZ 
+        178605*10 /
+
+TOPS
+-- The depth of the top of each grid block
+        35721*1500 /
+
+PORO
+-- Constant porosity of 0.2
+        178605*0.2 /
+
+PERMX
+        178605*100.0 /
+
+PERMY
+        178605*100.0 /
+
+PERMZ
+-- As the model is 2D, the PERMZ is not relevant
+        178605*100.0 /
+        
+
+PROPS
+-- -------------------------------------------------
+
+SWOF
+-- This keyword is not used in our case, since we
+-- don't have oil in our system.
+--    Sw      Krw    Krow     Pcow
+--                            (bar)
+ 0.0 0.0 1.0 0.0
+ 1.0 1.0 0.0 0.0 /
+
+DENSITY
+--   Oil       Water     Gas
+-- (kg/m3)   (kg/m3)   (kg/m3)
+     849       1025      0.82   /
+
+PVTW
+-- REF.PRES.  REF. FVF  COMPRESSIBILITY  REF.VISC.
+--        -> VISCOSIBILITY
+--  (bar) (m3/m3) (1/bar)    (cP)       (1/bar)
+     200   1.01   1.0e-4     1.0        0.0e+0   /
+
+PVDO
+-- This keyword is not used in our case, since
+-- we don't have oil in our system.
+--  PRES.   FVF.   VISC.
+    20.68   1.05   2.85
+    55.16   1.02   2.99
+   551.58   1.01   3.00
+/
+
+ROCK
+-- REF.PRES   COMPRESSIBILITY
+--  (bars)        (1/bars)
+     200          1.0e-6   /
+
+SOLUTION
+-- -------------------------------------------------
+
+-- Initial water saturation for each grid cell
+-- We have only water
+SWAT
+  178605*1.0
+/
+
+-- Initial pressure
+PRESSURE
+  178605*200.0
+/
+
+
+SUMMARY
+-- -------------------------------------------------
+
+-- This keyword enable printing out all the most
+-- commonly used data.
+ALL
+
+-- This keyword enable printing out the
+-- cummulative CPU use at different time steps. 
+TCPU
+
+
+SCHEDULE
+-- -------------------------------------------------
+
+-- This keyword enable printing out restart files.
+RPTRST
+ BASIC=1 /
+
+
+-- The WELSPECS keyword is used to defined some
+-- general data for the wells; where they enter
+-- the grid, and what kind of fluids they handle.
+WELSPECS
+-- Item #:
+--  1    2      3       4       5        6
+ 'INJW' 'G1'    14      176    1*    'WATER' /
+ 'PROD' 'G1'    99     99    1*    'WATER' /
+/
+
+-- The COMPDAT keyword defines how a well is
+-- connected to the reservoir (where it is
+-- completed/perforated)
+COMPDAT
+-- Item #:
+-- 1    2   3 4 5  6     7  8   9
+ 'INJW' 14  176 1 1 'OPEN' 1* 1*  0.2 /
+ 'PROD' 95 95 1 1 'OPEN' 1* 1*  0.2 /
+/
+
+-- This keyword defines well constrains for
+-- production wells
+WCONPROD
+-- Item #:1     2      3    4-8 9
+        'PROD' 'OPEN' 'BHP' 1* 10000.0 3*  170.0 /
+/
+
+-- This keyword defines well constrains for
+-- injection wells
+WCONINJE
+-- Item #:1      2       3       4      5-6 7
+        'INJW'  'WATER' 'OPEN'  'BHP'  1500.0 1*  300.0 /
+/
+
+-- This keyword defines times to when the simulation
+-- shall advance. One can use both dates and times.
+
+
+TSTEP
+ 15*1.0 /
+
+TSTEP
+ 20*15.0 /
+
+END
